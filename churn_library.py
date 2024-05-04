@@ -1,10 +1,11 @@
 # library doc string
 
-
 # import libraries
 import os
-os.environ['QT_QPA_PLATFORM']='offscreen'
+import pandas as pd
+import numpy as np
 
+os.environ['QT_QPA_PLATFORM']='offscreen'
 
 
 def import_data(pth):
@@ -16,95 +17,114 @@ def import_data(pth):
     output:
             df: pandas dataframe
     '''	
-	pass
+    df = pd.read_csv(pth, index_col=0)
+    return df
 
 
-def perform_eda(df):
+def preprocess_data(df):
     '''
-    perform eda on df and save figures to images folder
-    input:
-            df: pandas dataframe
-
-    output:
-            None
-    '''
-	pass
-
-
-def encoder_helper(df, category_lst, response):
-    '''
-    helper function to turn each categorical column into a new column with
-    propotion of churn for each category - associated with cell 15 from the notebook
+    preprocesses the data by encoding the 'Churn' variable and dropping
+    irrelevant columns.
 
     input:
-            df: pandas dataframe
-            category_lst: list of columns that contain categorical features
-            response: string of response name [optional argument that could be used for naming variables or index y column]
+        dataframe (DataFrame): Pandas DataFrame containing the data.
 
     output:
-            df: pandas dataframe with new columns for
+        dataframe (DataFrame): Preprocessed Pandas DataFrame.
     '''
-    pass
+    # Encode Churn dependent variable: 0 = Did not churned ; 1 = Churned
+    df['Churn'] = df['Attrition_Flag'].apply(
+        lambda val: 0 if val == "Existing Customer" else 1)
+    # Drop variables not relevant for the prediction model
+    df.drop(['Attrition_Flag', 'CLIENTNUM'], axis=1, inplace=True)
+    return df
+
+# def perform_eda(df):
+#     '''
+#     perform eda on df and save figures to images folder
+#     input:
+#             df: pandas dataframe
+
+#     output:
+#             None
+#     '''
+# 	pass
 
 
-def perform_feature_engineering(df, response):
-    '''
-    input:
-              df: pandas dataframe
-              response: string of response name [optional argument that could be used for naming variables or index y column]
+# def encoder_helper(df, category_lst, response):
+#     '''
+#     helper function to turn each categorical column into a new column with
+#     propotion of churn for each category - associated with cell 15 from the notebook
 
-    output:
-              X_train: X training data
-              X_test: X testing data
-              y_train: y training data
-              y_test: y testing data
-    '''
+#     input:
+#             df: pandas dataframe
+#             category_lst: list of columns that contain categorical features
+#             response: string of response name [optional argument that could be used for naming variables or index y column]
 
-def classification_report_image(y_train,
-                                y_test,
-                                y_train_preds_lr,
-                                y_train_preds_rf,
-                                y_test_preds_lr,
-                                y_test_preds_rf):
-    '''
-    produces classification report for training and testing results and stores report as image
-    in images folder
-    input:
-            y_train: training response values
-            y_test:  test response values
-            y_train_preds_lr: training predictions from logistic regression
-            y_train_preds_rf: training predictions from random forest
-            y_test_preds_lr: test predictions from logistic regression
-            y_test_preds_rf: test predictions from random forest
-
-    output:
-             None
-    '''
-    pass
+#     output:
+#             df: pandas dataframe with new columns for
+#     '''
+#     pass
 
 
-def feature_importance_plot(model, X_data, output_pth):
-    '''
-    creates and stores the feature importances in pth
-    input:
-            model: model object containing feature_importances_
-            X_data: pandas dataframe of X values
-            output_pth: path to store the figure
+# def perform_feature_engineering(df, response):
+#     '''
+#     input:
+#               df: pandas dataframe
+#               response: string of response name [optional argument that could be used for naming variables or index y column]
 
-    output:
-             None
-    '''
-    pass
+#     output:
+#               X_train: X training data
+#               X_test: X testing data
+#               y_train: y training data
+#               y_test: y testing data
+#     '''
 
-def train_models(X_train, X_test, y_train, y_test):
-    '''
-    train, store model results: images + scores, and store models
-    input:
-              X_train: X training data
-              X_test: X testing data
-              y_train: y training data
-              y_test: y testing data
-    output:
-              None
-    '''
-    pass
+# def classification_report_image(y_train,
+#                                 y_test,
+#                                 y_train_preds_lr,
+#                                 y_train_preds_rf,
+#                                 y_test_preds_lr,
+#                                 y_test_preds_rf):
+#     '''
+#     produces classification report for training and testing results and stores report as image
+#     in images folder
+#     input:
+#             y_train: training response values
+#             y_test:  test response values
+#             y_train_preds_lr: training predictions from logistic regression
+#             y_train_preds_rf: training predictions from random forest
+#             y_test_preds_lr: test predictions from logistic regression
+#             y_test_preds_rf: test predictions from random forest
+
+#     output:
+#              None
+#     '''
+#     pass
+
+
+# def feature_importance_plot(model, X_data, output_pth):
+#     '''
+#     creates and stores the feature importances in pth
+#     input:
+#             model: model object containing feature_importances_
+#             X_data: pandas dataframe of X values
+#             output_pth: path to store the figure
+
+#     output:
+#              None
+#     '''
+#     pass
+
+# def train_models(X_train, X_test, y_train, y_test):
+#     '''
+#     train, store model results: images + scores, and store models
+#     input:
+#               X_train: X training data
+#               X_test: X testing data
+#               y_train: y training data
+#               y_test: y testing data
+#     output:
+#               None
+#     '''
+#     pass
